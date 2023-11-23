@@ -5,4 +5,19 @@ pragma solidity ^0.8.17;
 
 contract HelloWorld {
     string public greet = "Hello World!";
+    
+    address public owner;
+
+    constructor () {
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can call this function");
+        _;
+    }
+
+    function changeGreet() onlyOwner public {
+        greet = "Hello Nigeria";
+    }
 }

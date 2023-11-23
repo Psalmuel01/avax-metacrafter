@@ -1,80 +1,81 @@
-# Hello World! in Solidity
+# Voting Contract
+
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+
+## Description
+
+The Voting Contract is a simple smart contract written in Solidity that allows eligible voters to cast their votes. The contract ensures that each voter can only vote once and provides a mechanism for the owner to reset a voter's status for testing purposes. It demonstrates the use of `require()`, `assert()`, and `revert()` statements for error handling.
+
+## Author
+
+ Samuel Dahunsi
+
+## Usage
+
+- **Voting:** To cast a vote, users can call the vote() function. The contract ensures that voters can only vote once and checks for eligibility using the isVoterEligible() function. If a voter is not eligible or has already voted, the transaction will revert.
+
+- **Resetting votes:** The owner of the contract can reset a voter's status using the resetVote() function. This function is provided for testing purposes and allows the owner to reset the status of a specific voter.
+
+## Smart Contract Details
+
+### Owner
+
+The contract owner is set during the contract deployment and is the address that deployed the contract.
+
+```solidity
+struct Voter {
+    string fullName;
+    uint256 age;
+    string politicalAffiliation;
+}
+```
+
+### Modifiers
+
+`onlyOwner`: Restricts certain functions to be callable only by the contract owner.
+
+```solidity
+modifier onlyOwner() {
+    require(msg.sender == owner, "Only the owner can call this function");
+    _;
+}
+```
+
+### Functions
+
+Constructor
+
+The contract constructor sets the owner to the address that deployed the contract.
+
+```solidity
+constructor() {
+    owner = msg.sender;
+}
+```
 
 
-## Install
+- **Register Voter**
 
-1. Install [Node.js](https://nodejs.org)
+`vote()`:
+The vote() function allows eligible voters to cast their votes. It checks for eligibility, ensures that the voter hasn't voted before, and emits the VoteCasted event.
 
-   Download and install from the official site.
+`isVoterEligible()`:
+The isVoterEligible() function determines voter eligibility based on a simple condition. In a real-world scenario, this function can be modified to include more complex eligibility checks.
 
-2. Install [Truffle](https://github.com/trufflesuite/truffle)
+```solidity
+function isVoterEligible(address voter) internal pure returns (bool) {
+    return voter != address(0);
+}
+```
 
-   ```bash
-   npm install -g truffle
-   ```
+`resetVote()`:
+The resetVote() function allows the owner to reset a voter's status for testing purposes.
 
+```solidity
+function resetVote(address voter) public onlyOwner {
+    hasVoted[voter] = false;
+}
+```
 
-## Initialize
-
-1. Initialize Truffle in your project folder
-
-   ```bash
-   truffle init
-   ```
-
-   After initialization, you will find two folders called `contracts` and `migrations`. Contracts go in the `contracts` folder while contract deployment settings go in `migrations`.
-
-2. The "Hello World!" contract
-
-   This is an example of a "Hello World!" contract in Solidity. 
-   "HelloWorld.sol" in `contracts` contains the following code:
-
-   ```solidity
-   // SPDX-License-Identifier: MIT
-   // compiler version must be greater than or equal to 0.8.17 and less than 0.9.0
-   pragma solidity ^0.8.17;
-   
-   contract HelloWorld {
-       string public greet = "Hello World!";
-   }   
-   ```
-
-3. Prepare the migration
-
-   "2_deploy_migration.js" in `migrations` contains the following code:
-
-   ```javascript
-   var HelloWorld = artifacts.require("HelloWorld");
-   module.exports = function(deployer) {
-     deployer.deploy(HelloWorld);
-   }
-   ```
-
-4. Start Truffle console in development mode
-
-   ```bash
-   truffle develop
-   ```
-
-   In the Truffle console, execute
-
-   ```bash
-   compile
-   migrate
-   ```
-   If you want to remigrate existing contracts, run `migrate --reset` instead of simply `migrate`.
-
-5. Test your contract
-
-   In the interactive Truffle console, run the following commands:
-
-   ```javascript
-   let instance = await HelloWorld.deployed()
-   instance.greet()
-   ```
-
-   Then you will see:
-
-   ```bash
-   'Hello World!'
-   ```
+### License
+This contract is released under the MIT License.

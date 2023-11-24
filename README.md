@@ -1,80 +1,37 @@
-# Hello World! in Solidity
+# Avax Frontend
 
+## Contract Overview
 
-## Install
+This Contract is a simple secret contract that allows to you to set anyone to set secret and get it on the blockchain. It can also show the address of the owner of the contract who deployed it.
 
-1. Install [Node.js](https://nodejs.org)
+## Contract Details
 
-   Download and install from the official site.
+### setSecret(string memory _secret)
 
-2. Install [Truffle](https://github.com/trufflesuite/truffle)
+Allows the user set any secret message
 
-   ```bash
-   npm install -g truffle
-   ```
+### showSecret()
 
+A function that returns the last updated secret message.
 
-## Initialize
+### showOwner()
 
-1. Initialize Truffle in your project folder
+This function returns th eaddress of the owner of the contract
 
-   ```bash
-   truffle init
-   ```
+## Frontend Integration
 
-   After initialization, you will find two folders called `contracts` and `migrations`. Contracts go in the `contracts` folder while contract deployment settings go in `migrations`.
+A UI was built to display and interact with the contract using React.js and Ethers.
 
-2. The "Hello World!" contract
+`To run the Frontend`
 
-   This is an example of a "Hello World!" contract in Solidity. 
-   "HelloWorld.sol" in `contracts` contains the following code:
+```zsh
+   cd ui-frontend
 
-   ```solidity
-   // SPDX-License-Identifier: MIT
-   // compiler version must be greater than or equal to 0.8.17 and less than 0.9.0
-   pragma solidity ^0.8.17;
-   
-   contract HelloWorld {
-       string public greet = "Hello World!";
-   }   
-   ```
+   # Install dependencies
+   yarn
 
-3. Prepare the migration
+   # Run Server
+   yarn dev
+```
 
-   "2_deploy_migration.js" in `migrations` contains the following code:
-
-   ```javascript
-   var HelloWorld = artifacts.require("HelloWorld");
-   module.exports = function(deployer) {
-     deployer.deploy(HelloWorld);
-   }
-   ```
-
-4. Start Truffle console in development mode
-
-   ```bash
-   truffle develop
-   ```
-
-   In the Truffle console, execute
-
-   ```bash
-   compile
-   migrate
-   ```
-   If you want to remigrate existing contracts, run `migrate --reset` instead of simply `migrate`.
-
-5. Test your contract
-
-   In the interactive Truffle console, run the following commands:
-
-   ```javascript
-   let instance = await HelloWorld.deployed()
-   instance.greet()
-   ```
-
-   Then you will see:
-
-   ```bash
-   'Hello World!'
-   ```
+After this, the project will be running on your localhost. Typically at http://localhost:5173/

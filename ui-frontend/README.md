@@ -1,8 +1,37 @@
-# React + Vite
+# Avax Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Contract Overview
 
-Currently, two official plugins are available:
+This Contract is a simple secret contract that allows to you to set anyone to set secret and get it on the blockchain. It can also show the address of the owner of the contract who deployed it.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Contract Details
+
+### setSecret(string memory _secret)
+
+Allows the user set any secret message
+
+### showSecret()
+
+A function that returns the last updated secret message.
+
+### showOwner()
+
+This function returns th eaddress of the owner of the contract
+
+## Frontend Integration
+
+A UI was built to display and interact with the contract using React.js and Ethers.
+
+`To run the Frontend`
+
+```zsh
+   cd ui-frontend
+
+   # Install dependencies
+   yarn
+
+   # Run Server
+   yarn dev
+```
+
+After this, the project will be running on your localhost. Typically at http://localhost:5173/

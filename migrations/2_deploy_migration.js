@@ -1,4 +1,4 @@
-var HelloWorld = artifacts.require("HelloWorld");
+var Secret = artifacts.require("Secret");
 module.exports = function(deployer) {
-  deployer.deploy(HelloWorld);
+  deployer.deploy(Secret);
 }

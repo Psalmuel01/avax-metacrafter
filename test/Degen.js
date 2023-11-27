@@ -1,40 +1,52 @@
-const { ethers } = require("hardhat");
 const { expect } = require("chai");
+const hre = require("hardhat");
+const helpers = require("@nomicfoundation/hardhat-network-helpers");
 
-describe("Degen", function () {
-  let Degen, degen, owner, addr1, addr2;
-
+describe("degen", function () {
+  let degen;
+  let owner;
+  let user = "0x0000000000000000000000000000000000001234";
+  let signedUser;
+  const amount = 10000;
   beforeEach(async function () {
-    Degen = await ethers.getContractFactory("Degen");
-    [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
+    [{ address: owner }] = await hre.ethers.getSigners();
+    const Degen = await hre.ethers.getContractFactory("Degen");
+
     degen = await Degen.deploy();
-    await degen.deployed();
+    await degen.waitForDeployment();
+    await degen.mint(owner, 10000);
+    signedUser = await hre.ethers.getImpersonatedSigner(user);
+    await helpers.setBalance(user, hre.ethers.parseEther("2000"));
   });
 
-  it("Should mint new tokens", async function () {
-    await degen.connect(owner).mint(addr1.address, 100);
-    expect(await degen.balanceOf(addr1.address)).to.equal(100);
+  it("should mint", async function () {
+    await degen.mint(user, amount);
+    expect(await degen.balanceOf(user)).to.equal(amount);
   });
 
-  it("Should burn tokens", async function () {
-    await degen.connect(owner).mint(addr1.address, 100);
-    await degen.connect(addr1).burn(50);
-    expect(await degen.balanceOf(addr1.address)).to.equal(50);
+  it("should burn", async function () {
+    await degen.mint(user, amount);
+
+    await degen.connect(signedUser).burn(3000);
+    expect(await degen.balanceOf(user)).to.equal(7000);
   });
 
-  it("Should create new item", async function () {
-    await degen.connect(owner).createItem(100, "Test Item");
-    let item = await degen.showItems(1);
-    expect(item.owner).to.equal(degen.address);
-    expect(item.amount).to.equal(100);
-    expect(item.name).to.equal("Test Item");
+  it("should transfer", async function () {
+    await degen.transfer(user, 5000);
+    expect(await degen.balanceOf(user)).to.equal(5000);
   });
 
-  it("Should redeem item", async function () {
-    await degen.connect(owner).createItem(100, "Test Item");
-    await degen.connect(owner).mint(addr1.address, 100);
-    await degen.connect(addr1).redeem(1);
-    let item = await degen.showItems(1);
-    expect(item.owner).to.equal(addr1.address);
+  it("should create item", async function () {
+    await degen.createItem(1000, "box");
+    expect(await degen.Items(0)[1]).to.equal("1000");
+    expect(await degen.Items(0)[2]).to.equal("box");
+  });
+
+  it("should redeem item", async function () {
+    await degen.createItem(1000, "box");
+    await degen.mint(user, 1500);
+    await degen.connect(signedUser).redeem(1);
+    expect(await degen.balanceOf(user)).to.equal(500);
+    expect((await degen.Items(1))[0]).to.equal(user);
   });
 });

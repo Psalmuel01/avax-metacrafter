@@ -37,9 +37,11 @@ describe("degen", function () {
   });
 
   it("should create item", async function () {
-    await degen.createItem(1000, "box");
-    expect(await degen.Items(0)[1]).to.equal("1000");
-    expect(await degen.Items(0)[2]).to.equal("box");
+    await degen.createItem(2000, "box");
+    expect(hre.ethers.formatUnits((await degen.Items(1))[1], 0)).to.equal(
+      "2000"
+    );
+    expect((await degen.Items(1))[2]).to.equal("box");
   });
 
   it("should redeem item", async function () {
@@ -48,5 +50,16 @@ describe("degen", function () {
     await degen.connect(signedUser).redeem(1);
     expect(await degen.balanceOf(user)).to.equal(500);
     expect((await degen.Items(1))[0]).to.equal(user);
+  });
+
+  it("should check if item is unclaimed", async function () {
+    const id = 1;
+    isUnclaimed = await degen.checkUnclaimedItem(id);
+    expect(isUnclaimed).to.equal(true);
+    await degen.createItem(1000, "box");
+    await degen.mint(user, 1000);
+    await degen.connect(signedUser).redeem(id);
+    expect((await degen.Items(1))[0]).to.equal(user);
+    expect(isUnclaimed).to.equal(true);
   });
 });

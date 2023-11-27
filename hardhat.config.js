@@ -1,4 +1,7 @@
 require("@nomicfoundation/hardhat-toolbox");
+const dotenv = require("dotenv");
+dotenv.config();
+require("dotenv").config();
 
 const FORK_FUJI = false;
 const FORK_MAINNET = false;
@@ -28,17 +31,13 @@ module.exports = {
       url: "https://api.avax-test.network/ext/bc/C/rpc",
       gasPrice: 225000000000,
       chainId: 43113,
-      accounts: [
-        "f9289a33a4980864eee10485607b2394e745f90bb67c9600b224bc3b0658f52a",
-      ],
+      accounts: [process.env.PRIVATEKEY],
     },
     mainnet: {
       url: "https://api.avax.network/ext/bc/C/rpc",
       gasPrice: 225000000000,
       chainId: 43114,
-      accounts: [
-        "f9289a33a4980864eee10485607b2394e745f90bb67c9600b224bc3b0658f52a",
-      ],
+      accounts: [process.env.PRIVATEKEY],
     },
   },
   etherscan: {

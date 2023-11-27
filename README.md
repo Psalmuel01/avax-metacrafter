@@ -2,6 +2,12 @@
 
 The DEGEN contract is an ERC20 token with additional functionality. Apart from the standard ERC20 functionality, it allows the contract owner to create redeemable items that users can redeem by burning a certain amount of their tokens. Each item can only be redeemed once.
 
+## Contract Address
+
+### **0x162fa35064e961b608009ef636202979fd74415d**
+
+### **[Contract address on Snowtrace](https://testnet.snowtrace.io/address/0x162fa35064e961b608009ef636202979fd74415d)**
+
 ## Contract Structure
 
 This contract is based on Solidity version 0.8.19 and uses the OpenZeppelin ERC20 contract for the basic ERC20 functionality.

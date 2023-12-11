@@ -1,27 +1,66 @@
-# DeFi Empire
+## Foundry
 
-This smart contract allows players to collect, build, and earn rewards for their participation in the game's activities. It has two main contracts, `ERC20 token` contract and the `Vault` contract, which are both deployed on `mySubnet` network.
+**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
 
-## Contract Addresses
+Foundry consists of:
 
-**ERC20 Token Contract**:
+-   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
+-   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
+-   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
+-   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
 
-**Vault Contract**:
+## Documentation
 
-## Deploying mySubnet Network with Avalanche CLI
+https://book.getfoundry.sh/
 
-![Subnet](./images/subnet.png)
+## Usage
 
-## Added mySubnet Network to Metamask
+### Build
 
-![Network](./images/network.png)
+```shell
+$ forge build
+```
 
-## Deploy/Interact with Remix
+### Test
 
-<!-- image deploy/interact -->
+```shell
+$ forge test
+```
 
-<!-- 56289e99c94b6912bfc12adc093c9b51124f0dc54ac7a766b2bc5ccf558d8027 -->
+### Format
 
-### Author
+```shell
+$ forge fmt
+```
 
-**Samuel Dahunsi**
+### Gas Snapshots
+
+```shell
+$ forge snapshot
+```
+
+### Anvil
+
+```shell
+$ anvil
+```
+
+### Deploy
+
+```shell
+$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```
+
+### Cast
+
+```shell
+$ cast <subcommand>
+```
+
+### Help
+
+```shell
+$ forge --help
+$ anvil --help
+$ cast --help
+```
